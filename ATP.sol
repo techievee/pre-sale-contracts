@@ -18,7 +18,7 @@ contract ATP {
     Phase public currentPhase = Phase.Created;
     
     address public tokenManager;
-    address public beneficiary;
+    address public escrow;
     address public crowdsaleManager;
     
     uint public totalSupply = 0;
@@ -28,9 +28,9 @@ contract ATP {
     event Burn(address indexed owner, uint amount);
     event PhaseSwitch(Phase newPhase);
     
-    function ATP(address _tokenManager, address _beneficiary) {
+    function ATP(address _tokenManager, address _escrow) {
         tokenManager = _tokenManager;
-        beneficiary = _beneficiary;        
+        escrow = _escrow;
     }
     
     function() payable {
@@ -81,7 +81,7 @@ contract ATP {
     
     function withdrawEther() public onlyTokenManager {
         if(this.balance > 0) {
-            beneficiary.transfer(this.balance);
+            escrow.transfer(this.balance);
         }
     }
     
